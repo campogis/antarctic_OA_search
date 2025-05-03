@@ -1,0 +1,19 @@
+Antarctic Peninsula region
+Western Antarctic Peninsula
+South Shetland Islands
+South Orkney ISland
+Brandsfield strait
+Gerlache Strait
+Marguerite Bay
+Antarctic Sound
+CEMP site
+domain 1
+Western Antarctic Peninsula-Southscotia arc
+ccamlr subarea
+ccamlr region
+ccamlr region 48.1
+ccamlr region 48.2
+ccamlr region 88.3
+ccamlr subarea 48.1
+ccamlr subarea 48.2
+ccamlr subarea 88.3

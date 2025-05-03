@@ -215,8 +215,9 @@ valid = valid %>%
 check_completeness = full_join(dplyr::select(mutate(search_outputs_clean,search_set = TRUE),title,search_set),
                                valid, 
                                by = 'title')
-check_completeness %>% filter(validation_set == TRUE & search_set == TRUE) 
-%>% count() # only 4 are included in the search
+check_completeness %>% 
+  filter(validation_set == TRUE & search_set == TRUE) %>% 
+  count() # only 4 are included in the search
 
 
 

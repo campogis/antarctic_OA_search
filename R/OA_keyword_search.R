@@ -47,7 +47,7 @@ library(pbapply)
 
 ### Set topic and iteration----
 #topics = c('species_data', 'EO_data', 'NCP', 'ecosystem_management', 'governance', 'ILK')
-iteration = 'iter_1'
+iteration = 'iter_2'
 
 # create dirs
 topic_dir = paste0("../output/", iteration)
@@ -61,32 +61,33 @@ if(!dir.exists(topic_dir)){
 
 search_terms1 <- readLines(paste0("../input/search_terms/", "species.txt")) #with breaks
 search_terms2 <- readLines(paste0("../input/search_terms/", "regions.txt")) #with breaks
-search_terms3 <- readLines(paste0("../input/search_terms/", "fr_monitoring.txt")) #with breaks
-search_terms4 <- readLines(paste0("../input/search_terms/", "monitoring.txt")) #with breaks
+#search_terms3 <- readLines(paste0("../input/search_terms/", "fr_monitoring.txt")) #with breaks
+#search_terms4 <- readLines(paste0("../input/search_terms/", "monitoring.txt")) #with breaks
 
 # Add "" and OR
 search_terms1 <- paste0('"',search_terms1, '" OR')
 search_terms2 <- paste0('"',search_terms2, '" OR')
-search_terms3 <- paste0('"',search_terms3, '" OR')
-search_terms4 <- paste0('"',search_terms4, '" OR')
+#search_terms3 <- paste0('"',search_terms3, '" OR')
+#search_terms4 <- paste0('"',search_terms4, '" OR')
 
 # Remove ' OR' from the last item
 search_terms1[length(search_terms1)] <- gsub(" OR$", "", search_terms1[length(search_terms1)])
 search_terms2[length(search_terms2)] <- gsub(" OR$", "", search_terms2[length(search_terms2)])
-search_terms3[length(search_terms3)] <- gsub(" OR$", "", search_terms3[length(search_terms3)])
-search_terms4[length(search_terms4)] <- gsub(" OR$", "", search_terms4[length(search_terms4)])
+#search_terms3[length(search_terms3)] <- gsub(" OR$", "", search_terms3[length(search_terms3)])
+#search_terms4[length(search_terms4)] <- gsub(" OR$", "", search_terms4[length(search_terms4)])
 
 # Remove breaks
 st1 <- paste0(search_terms1, collapse = " ") %>% 
 compact_st() #no breaks
 st2 <- paste0(search_terms2, collapse = " ") %>% 
   compact_st() #no breaks
-st3 <- paste0(search_terms3, collapse = " ") %>% 
-  compact_st() #no breaks
-st4 <- paste0(search_terms4, collapse = " ") %>% 
-  compact_st() #no breaks
+#st3 <- paste0(search_terms3, collapse = " ") %>% 
+#  compact_st() #no breaks
+#st4 <- paste0(search_terms4, collapse = " ") %>% 
+#  compact_st() #no breaks
 
-st <- paste0("(", st1, ")"," AND ", "(", st2, ")"," AND ","(", st3, ")"," AND ", "(", st4, ")")
+#st <- paste0("(", st1, ")"," AND ", "(", st2, ")"," AND ","(", st3, ")"," AND ", "(", st4, ")")
+st <- paste0("(", st1, ")"," AND ", "(", st2, ")")
 cat(st)
 
 ### Keywords analysis----
@@ -95,7 +96,8 @@ oa_summary = as.data.frame(openalexR::oa_fetch(title_and_abstract.search = st, #
                     count_only = TRUE, # provide summary of hits
                     verbose = TRUE))
 # Add OA link based on web serach using cat(st)
-oa_summary$oa = 'https://openalex.org/works?page=1&filter=title_and_abstract.search%3A%28%22Pygoscelis%20adeliae%22%20OR%20%22Pygoscelis%20papua%22%20OR%20%22Pygoscelis%20antarctica%22%20OR%20%22Pygoscelis%20antarcticus%22%20OR%20%22Aptenodytes%20forsteri%22%20OR%20%22adelie%20penguin%22%20OR%20%22Ad%C3%A9lie%20penguin%22%20OR%20%22gentoo%20penguin%22%20OR%20%22Gentoo%20penguin%22%20OR%20%22Chinstrap%20penguin%22%20OR%20%22emperor%20penguin%22%20OR%20%22Pygoscelis%22%20OR%20%22Aptenodytes%22%20OR%20%22penguin%22%20OR%20%22adeliae%22%20OR%20%22papua%22%20OR%20%22antarctica%22%20OR%20%22antarcticus%22%20OR%20%22forsteri%22%20OR%20%22adelie%22%20OR%20%22Ad%C3%A9lie%22%20OR%20%22gentoo%22%20OR%20%22Gentoo%22%20OR%20%22emperor%22%29%20AND%20%28%22Antarctic%20Peninsula%20region%22%20OR%20%22Western%20Antarctic%20Peninsula%22%20OR%20%22South%20Shetland%20Islands%22%20OR%20%22South%20Orkney%20ISland%22%20OR%20%22Brandsfield%20strait%22%20OR%20%22Gerlache%20Strait%22%20OR%20%22Marguerite%20Bay%22%20OR%20%22Antarctic%20Sound%22%20OR%20%22CEMP%20site%22%20OR%20%22domain%201%22%20OR%20%22Western%20Antarctic%20Peninsula-Southscotia%20arc%22%20OR%20%22ccamlr%20subarea%22%20OR%20%22ccamlr%20region%22%20OR%20%22ccamlr%20region%2048.1%22%20OR%20%22ccamlr%20region%2048.2%22%20OR%20%22ccamlr%20region%2088.3%22%20OR%20%22ccamlr%20subarea%2048.1%22%20OR%20%22ccamlr%20subarea%2048.2%22%20OR%20%22ccamlr%20subarea%2088.3%22%29%20AND%20%28%22long%20term%22%20OR%20%22trend%22%20OR%20%22change%22%20OR%20%22seasonal%22%20OR%20%22season%22%20OR%20%22years%22%20OR%20%22decadal%22%29%20AND%20%28%22monitoring%22%20OR%20%22survey%22%20OR%20%22inventory%22%20OR%20%22census%22%20OR%20%22study%22%29&id=6emmG9dNmDmj3LpeKprGYA'
+#oa_summary$oa = 'https://openalex.org/works?page=1&filter=title_and_abstract.search%3A%28%22Pygoscelis%20adeliae%22%20OR%20%22Pygoscelis%20papua%22%20OR%20%22Pygoscelis%20antarctica%22%20OR%20%22Pygoscelis%20antarcticus%22%20OR%20%22Aptenodytes%20forsteri%22%20OR%20%22adelie%20penguin%22%20OR%20%22Ad%C3%A9lie%20penguin%22%20OR%20%22gentoo%20penguin%22%20OR%20%22Gentoo%20penguin%22%20OR%20%22Chinstrap%20penguin%22%20OR%20%22emperor%20penguin%22%20OR%20%22Pygoscelis%22%20OR%20%22Aptenodytes%22%20OR%20%22penguin%22%20OR%20%22adeliae%22%20OR%20%22papua%22%20OR%20%22antarctica%22%20OR%20%22antarcticus%22%20OR%20%22forsteri%22%20OR%20%22adelie%22%20OR%20%22Ad%C3%A9lie%22%20OR%20%22gentoo%22%20OR%20%22Gentoo%22%20OR%20%22emperor%22%29%20AND%20%28%22Antarctic%20Peninsula%20region%22%20OR%20%22Western%20Antarctic%20Peninsula%22%20OR%20%22South%20Shetland%20Islands%22%20OR%20%22South%20Orkney%20ISland%22%20OR%20%22Brandsfield%20strait%22%20OR%20%22Gerlache%20Strait%22%20OR%20%22Marguerite%20Bay%22%20OR%20%22Antarctic%20Sound%22%20OR%20%22CEMP%20site%22%20OR%20%22domain%201%22%20OR%20%22Western%20Antarctic%20Peninsula-Southscotia%20arc%22%20OR%20%22ccamlr%20subarea%22%20OR%20%22ccamlr%20region%22%20OR%20%22ccamlr%20region%2048.1%22%20OR%20%22ccamlr%20region%2048.2%22%20OR%20%22ccamlr%20region%2088.3%22%20OR%20%22ccamlr%20subarea%2048.1%22%20OR%20%22ccamlr%20subarea%2048.2%22%20OR%20%22ccamlr%20subarea%2088.3%22%29%20AND%20%28%22long%20term%22%20OR%20%22trend%22%20OR%20%22change%22%20OR%20%22seasonal%22%20OR%20%22season%22%20OR%20%22years%22%20OR%20%22decadal%22%29%20AND%20%28%22monitoring%22%20OR%20%22survey%22%20OR%20%22inventory%22%20OR%20%22census%22%20OR%20%22study%22%29&id=6emmG9dNmDmj3LpeKprGYA'
+oa_summary$oa = 'https://openalex.org/works?page=1&filter=title_and_abstract.search%3A%28%22Pygoscelis%20adeliae%22%20OR%20%22Pygoscelis%20papua%22%20OR%20%22Pygoscelis%20antarctica%22%20OR%20%22Pygoscelis%20antarcticus%22%20OR%20%22Aptenodytes%20forsteri%22%20OR%20%22adelie%20penguin%22%20OR%20%22Ad%C3%A9lie%20penguin%22%20OR%20%22gentoo%20penguin%22%20OR%20%22Gentoo%20penguin%22%20OR%20%22Chinstrap%20penguin%22%20OR%20%22emperor%20penguin%22%20OR%20%22Pygoscelis%22%20OR%20%22Aptenodytes%22%20OR%20%22penguin%22%20OR%20%22adeliae%22%20OR%20%22papua%22%20OR%20%22antarctica%22%20OR%20%22antarcticus%22%20OR%20%22forsteri%22%20OR%20%22adelie%22%20OR%20%22Ad%C3%A9lie%22%20OR%20%22gentoo%22%20OR%20%22Gentoo%22%20OR%20%22emperor%22%29%20AND%20%28%22Antarctic%20Peninsula%20region%22%20OR%20%22Western%20Antarctic%20Peninsula%22%20OR%20%22South%20Shetland%20Islands%22%20OR%20%22South%20Orkney%20ISland%22%20OR%20%22Brandsfield%20strait%22%20OR%20%22Gerlache%20Strait%22%20OR%20%22Marguerite%20Bay%22%20OR%20%22Antarctic%20Sound%22%20OR%20%22CEMP%20site%22%20OR%20%22domain%201%22%20OR%20%22Western%20Antarctic%20Peninsula-Southscotia%20arc%22%20OR%20%22ccamlr%20subarea%22%20OR%20%22ccamlr%20region%22%20OR%20%22ccamlr%20region%2048.1%22%20OR%20%22ccamlr%20region%2048.2%22%20OR%20%22ccamlr%20region%2088.3%22%20OR%20%22ccamlr%20subarea%2048.1%22%20OR%20%22ccamlr%20subarea%2048.2%22%20OR%20%22ccamlr%20subarea%2088.3%22%29&id=iAroPbyBSFEzsahky8Djkp'
 
 # Contribution of each term individually (the counts exclude hits that can be retrieved with other terms)
 # indiv_term_contr = assess_search_term(
@@ -166,7 +168,7 @@ search_outputs <- oa_fetch(
 write_csv(search_outputs, paste0("../output/", iteration, "/oa_search.csv"))
 
 # Clean results
-names(search_outputs)
+#names(search_outputs)
 search_outputs_clean = search_outputs %>% 
   # remove GBIF downloads
   mutate(remove = if_else(grepl("www[.]gbif[.]org/occurrence/download",oa_url),
@@ -217,7 +219,9 @@ check_completeness = full_join(dplyr::select(mutate(search_outputs_clean,search_
                                by = 'title')
 check_completeness %>% 
   filter(validation_set == TRUE & search_set == TRUE) %>% 
-  count() # only 4 are included in the search
+  count() 
+# only 4 are included in the full search (iter_1)
+# only 8 are included in the partial search (species and regions, iter_2)
 
 
 

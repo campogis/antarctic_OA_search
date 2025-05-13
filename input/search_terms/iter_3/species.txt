@@ -1,0 +1,18 @@
+Pygoscelis adeliae
+Pygoscelis papua
+Pygoscelis antarctica
+Pygoscelis antarcticus
+Aptenodytes forsteri
+Pygoscelis
+Aptenodytes
+penguin
+adeliae
+papua
+antarctica
+antarcticus
+forsteri
+adelie
+Adélie
+gentoo
+Chinstrap
+emperor

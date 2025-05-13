@@ -1,0 +1,18 @@
+Antarctic Peninsula
+South Shetland Islands
+South Orkney Island
+Brandsfield strait
+Gerlache Strait
+Marguerite Bay
+Antarctic Sound
+CEMP site
+domain 1
+subarea 48.1
+subarea 48.2
+subarea 88.3
+area 48
+48.1
+48.2
+88.3
+small-scale management unit
+ccamlr

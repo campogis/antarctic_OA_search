@@ -1,0 +1,5 @@
+monitoring
+survey
+inventory
+census
+study

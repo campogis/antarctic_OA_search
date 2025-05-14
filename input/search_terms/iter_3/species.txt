@@ -8,7 +8,6 @@ Aptenodytes
 penguin
 adeliae
 papua
-antarctica
 antarcticus
 forsteri
 adelie

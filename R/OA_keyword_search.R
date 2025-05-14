@@ -97,7 +97,7 @@ oa_summary = as.data.frame(openalexR::oa_fetch(title_and_abstract.search = st, #
                     verbose = TRUE))
 # Add OA link based on web serach using cat(st)
 #oa_summary$oa = 'https://openalex.org/works?page=1&filter=title_and_abstract.search%3A%28%22Pygoscelis%20adeliae%22%20OR%20%22Pygoscelis%20papua%22%20OR%20%22Pygoscelis%20antarctica%22%20OR%20%22Pygoscelis%20antarcticus%22%20OR%20%22Aptenodytes%20forsteri%22%20OR%20%22adelie%20penguin%22%20OR%20%22Ad%C3%A9lie%20penguin%22%20OR%20%22gentoo%20penguin%22%20OR%20%22Gentoo%20penguin%22%20OR%20%22Chinstrap%20penguin%22%20OR%20%22emperor%20penguin%22%20OR%20%22Pygoscelis%22%20OR%20%22Aptenodytes%22%20OR%20%22penguin%22%20OR%20%22adeliae%22%20OR%20%22papua%22%20OR%20%22antarctica%22%20OR%20%22antarcticus%22%20OR%20%22forsteri%22%20OR%20%22adelie%22%20OR%20%22Ad%C3%A9lie%22%20OR%20%22gentoo%22%20OR%20%22Gentoo%22%20OR%20%22emperor%22%29%20AND%20%28%22Antarctic%20Peninsula%20region%22%20OR%20%22Western%20Antarctic%20Peninsula%22%20OR%20%22South%20Shetland%20Islands%22%20OR%20%22South%20Orkney%20ISland%22%20OR%20%22Brandsfield%20strait%22%20OR%20%22Gerlache%20Strait%22%20OR%20%22Marguerite%20Bay%22%20OR%20%22Antarctic%20Sound%22%20OR%20%22CEMP%20site%22%20OR%20%22domain%201%22%20OR%20%22Western%20Antarctic%20Peninsula-Southscotia%20arc%22%20OR%20%22ccamlr%20subarea%22%20OR%20%22ccamlr%20region%22%20OR%20%22ccamlr%20region%2048.1%22%20OR%20%22ccamlr%20region%2048.2%22%20OR%20%22ccamlr%20region%2088.3%22%20OR%20%22ccamlr%20subarea%2048.1%22%20OR%20%22ccamlr%20subarea%2048.2%22%20OR%20%22ccamlr%20subarea%2088.3%22%29%20AND%20%28%22long%20term%22%20OR%20%22trend%22%20OR%20%22change%22%20OR%20%22seasonal%22%20OR%20%22season%22%20OR%20%22years%22%20OR%20%22decadal%22%29%20AND%20%28%22monitoring%22%20OR%20%22survey%22%20OR%20%22inventory%22%20OR%20%22census%22%20OR%20%22study%22%29&id=6emmG9dNmDmj3LpeKprGYA'
-oa_summary$oa = 'https://openalex.org/works?page=1&filter=title_and_abstract.search%3A%28%22Pygoscelis%20adeliae%22%20OR%20%22Pygoscelis%20papua%22%20OR%20%22Pygoscelis%20antarctica%22%20OR%20%22Pygoscelis%20antarcticus%22%20OR%20%22Aptenodytes%20forsteri%22%20OR%20%22adelie%20penguin%22%20OR%20%22Ad%C3%A9lie%20penguin%22%20OR%20%22gentoo%20penguin%22%20OR%20%22Gentoo%20penguin%22%20OR%20%22Chinstrap%20penguin%22%20OR%20%22emperor%20penguin%22%20OR%20%22Pygoscelis%22%20OR%20%22Aptenodytes%22%20OR%20%22penguin%22%20OR%20%22adeliae%22%20OR%20%22papua%22%20OR%20%22antarctica%22%20OR%20%22antarcticus%22%20OR%20%22forsteri%22%20OR%20%22adelie%22%20OR%20%22Ad%C3%A9lie%22%20OR%20%22gentoo%22%20OR%20%22Gentoo%22%20OR%20%22emperor%22%29%20AND%20%28%22Antarctic%20Peninsula%20region%22%20OR%20%22Western%20Antarctic%20Peninsula%22%20OR%20%22South%20Shetland%20Islands%22%20OR%20%22South%20Orkney%20ISland%22%20OR%20%22Brandsfield%20strait%22%20OR%20%22Gerlache%20Strait%22%20OR%20%22Marguerite%20Bay%22%20OR%20%22Antarctic%20Sound%22%20OR%20%22CEMP%20site%22%20OR%20%22domain%201%22%20OR%20%22Western%20Antarctic%20Peninsula-Southscotia%20arc%22%20OR%20%22ccamlr%20subarea%22%20OR%20%22ccamlr%20region%22%20OR%20%22ccamlr%20region%2048.1%22%20OR%20%22ccamlr%20region%2048.2%22%20OR%20%22ccamlr%20region%2088.3%22%20OR%20%22ccamlr%20subarea%2048.1%22%20OR%20%22ccamlr%20subarea%2048.2%22%20OR%20%22ccamlr%20subarea%2088.3%22%29&id=iAroPbyBSFEzsahky8Djkphttps://openalex.org/works?page=1&filter=title_and_abstract.search%3A%28%22Pygoscelis%20adeliae%22%20OR%20%22Pygoscelis%20papua%22%20OR%20%22Pygoscelis%20antarctica%22%20OR%20%22Pygoscelis%20antarcticus%22%20OR%20%22Aptenodytes%20forsteri%22%20OR%20%22Pygoscelis%22%20OR%20%22Aptenodytes%22%20OR%20%22penguin%22%20OR%20%22adeliae%22%20OR%20%22papua%22%20OR%20%22antarctica%22%20OR%20%22antarcticus%22%20OR%20%22forsteri%22%20OR%20%22adelie%22%20OR%20%22Ad%C3%A9lie%22%20OR%20%22gentoo%22%20OR%20%22Chinstrap%22%20OR%20%22emperor%22%29%20AND%20%28%22Antarctic%20Peninsula%22%20OR%20%22South%20Shetland%20Islands%22%20OR%20%22South%20Orkney%20Island%22%20OR%20%22Brandsfield%20strait%22%20OR%20%22Gerlache%20Strait%22%20OR%20%22Marguerite%20Bay%22%20OR%20%22Antarctic%20Sound%22%20OR%20%22CEMP%20site%22%20OR%20%22domain%201%22%20OR%20%22subarea%2048.1%22%20OR%20%22subarea%2048.2%22%20OR%20%22subarea%2088.3%22%20OR%20%22area%2048%22%20OR%20%2248.1%22%20OR%20%2248.2%22%20OR%20%2288.3%22%20OR%20%22small-scale%20management%20unit%22%20OR%20%22ccamlr%22%29%20AND%20%28%22monitoring%22%20OR%20%22survey%22%20OR%20%22inventory%22%20OR%20%22census%22%20OR%20%22study%22%20OR%20%22Time-series%22%20OR%20%22Time%20series%22%20OR%20%22Monitor%22%20OR%20%22data%20collection%22%20OR%20%22Antarctic%20Site%20Inventory%22%20OR%20%22long%20term%22%20OR%20%22trend%22%20OR%20%22change%22%20OR%20%22seasonal%22%20OR%20%22season%22%20OR%20%22years%22%20OR%20%22decadal%22%20OR%20%22decades%22%20OR%20%22interannual%22%20OR%20%22monitored%22%20OR%20%22counts%22%20OR%20%22observation%22%29&id=9RPnEewibdWWQ8tsu3W2b7'
+oa_summary$oa = 'https://openalex.org/works?page=1&filter=title_and_abstract.search%3A%28%22Pygoscelis%20adeliae%22%20OR%20%22Pygoscelis%20papua%22%20OR%20%22Pygoscelis%20antarctica%22%20OR%20%22Pygoscelis%20antarcticus%22%20OR%20%22Aptenodytes%20forsteri%22%20OR%20%22Pygoscelis%22%20OR%20%22Aptenodytes%22%20OR%20%22penguin%22%20OR%20%22adeliae%22%20OR%20%22papua%22%20OR%20%22antarcticus%22%20OR%20%22forsteri%22%20OR%20%22adelie%22%20OR%20%22Ad%C3%A9lie%22%20OR%20%22gentoo%22%20OR%20%22Chinstrap%22%20OR%20%22emperor%22%29%20AND%20%28%22Antarctic%20Peninsula%22%20OR%20%22South%20Shetland%20Islands%22%20OR%20%22South%20Orkney%20Island%22%20OR%20%22Brandsfield%20strait%22%20OR%20%22Gerlache%20Strait%22%20OR%20%22Marguerite%20Bay%22%20OR%20%22Antarctic%20Sound%22%20OR%20%22CEMP%20site%22%20OR%20%22domain%201%22%20OR%20%22subarea%2048.1%22%20OR%20%22subarea%2048.2%22%20OR%20%22subarea%2088.3%22%20OR%20%22area%2048%22%20OR%20%2248.1%22%20OR%20%2248.2%22%20OR%20%2288.3%22%20OR%20%22small-scale%20management%20unit%22%20OR%20%22ccamlr%22%29%20AND%20%28%22monitoring%22%20OR%20%22survey%22%20OR%20%22inventory%22%20OR%20%22census%22%20OR%20%22study%22%20OR%20%22Time-series%22%20OR%20%22Time%20series%22%20OR%20%22Monitor%22%20OR%20%22data%20collection%22%20OR%20%22Antarctic%20Site%20Inventory%22%20OR%20%22long%20term%22%20OR%20%22trend%22%20OR%20%22change%22%20OR%20%22seasonal%22%20OR%20%22season%22%20OR%20%22years%22%20OR%20%22decadal%22%20OR%20%22decades%22%20OR%20%22interannual%22%20OR%20%22monitored%22%20OR%20%22counts%22%20OR%20%22observation%22%29&id=2iytNJ1sKMwuJATY13C9sj'
 
 # Contribution of each term individually (the counts exclude hits that can be retrieved with other terms)
 # indiv_term_contr = assess_search_term(
@@ -154,41 +154,6 @@ search_outputs_byTopic <- oa_fetch(
   verbose = TRUE
 )
 
-
-### Get data from OpenAlex----
-search_outputs <- oa_fetch(
-  entity = "works", #oa_entities()
-  title_and_abstract.search = st,
-  count_only = FALSE,
-  verbose = TRUE,
-  mailto = oa_email())
-# the url only shows the first page
-
-# save output
-write_csv(search_outputs, paste0("../output/", iteration, "/oa_search.csv"))
-
-# Clean results
-#names(search_outputs)
-search_outputs_clean = search_outputs %>% 
-  # remove GBIF downloads
-  mutate(remove = if_else(grepl("www[.]gbif[.]org/occurrence/download",oa_url),
-                                  true = 'yes',
-                                  false = 'no')) %>% 
-  filter(remove == 'no') %>% 
-  # clean columns
-  dplyr::select("title","abstract",
-                "publication_year", "doi",        
-                "type","oa_url","concepts",
-                "topics","keywords","pdf_url",
-                "authorships","cited_by_count") %>% 
-  # add id col
-  mutate(id = row_number())
-
-# save output
-#write_csv(search_outputs_clean, paste0("../output/", iteration, "/oa_search_clean.csv"))
-#search_outputs_clean = read_csv(paste0("../output/", iteration, "/oa_search_clean.csv"))
-
-
 # Save as excel sheet with multiple tabs
 # Create a blank workbook
 OUT <- createWorkbook()
@@ -209,6 +174,68 @@ writeData(OUT, sheet = "topic", x = dplyr::select(search_outputs_byTopic, -key))
 
 # Export the file
 saveWorkbook(OUT, paste0("../output/", iteration, "/oa_results.xlsx"),overwrite = TRUE)
+
+### Get data from OpenAlex----
+search_outputs <- oa_fetch(
+  entity = "works", #oa_entities()
+  title_and_abstract.search = st,
+  count_only = FALSE,
+  verbose = TRUE,
+  mailto = oa_email())
+# the url only shows the first page
+
+# save output
+write_csv(search_outputs, paste0("../output/", iteration, "/oa_search.csv"))
+
+# Clean results
+
+search_outputs_clean = search_outputs %>% 
+  # remove GBIF downloads
+  mutate(remove = if_else(grepl("www[.]gbif[.]org/occurrence/download",oa_url),
+                                  true = 'yes',
+                                  false = 'no')) %>% 
+  filter(remove == 'no') %>% 
+  # authorship
+  mutate(author = sapply(authorships, function(x) {
+    paste(x$display_name, collapse = "; ")
+  })) %>% 
+  # # keywords
+  # mutate(keyword = sapply(keywords, function(y) {
+  #   paste(y$display_name, collapse = "; ")
+  # })) %>%
+  # concepts
+  mutate(concept = sapply(concepts, function(x) {
+    # Filter for scores greater than 0.5
+    filtered_scores <- x[x$score > 0.5, ]
+    # Combine the display names of the filtered authors
+    paste(filtered_scores$display_name, collapse = "; ")
+  })) %>% 
+  # topics (topic)
+  mutate(topic = sapply(topics, function(x) {
+  # Filter for types
+    filtered_topics <- x[x$type == 'topic', ]
+  # Combine the display names of the filtered topics
+    paste(filtered_topics$display_name, collapse = "; ")
+  })) %>% 
+  # topics (subfield)
+  mutate(subfield = sapply(topics, function(x) {
+    # Filter for types
+    filtered_subfield <- x[x$type == 'subfield', ]
+    # Combine the display names of the filtered topics
+    paste(filtered_subfield$display_name, collapse = "; ")
+  })) %>% 
+  # clean columns
+  dplyr::select("title","abstract",
+                "publication_year", "doi",        
+                "type","oa_url","author","concept",
+                "topic","subfield","pdf_url",
+                "cited_by_count") %>% 
+  # add id col
+  mutate(id = row_number())
+
+# save output
+#write_csv(search_outputs_clean, paste0("../output/", iteration, "/oa_search_clean.csv"))
+#search_outputs_clean = read_csv(paste0("../output/", iteration, "/oa_search_clean.csv"))
 
 ### Validation----
 # Checks against validation dataset (https://www.penguinmap.com/mapppd/sources/)

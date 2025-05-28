@@ -185,7 +185,8 @@ search_outputs <- oa_fetch(
 # the url only shows the first page
 
 # save output
-write_csv(search_outputs, paste0("../output/", iteration, "/oa_search.csv"))
+#write_csv(search_outputs, paste0("../output/", iteration, "/oa_search.csv"))
+#search_outputs = read_csv(paste0("../output/", iteration, "/oa_search.csv"))
 
 # Clean results
 
@@ -239,18 +240,25 @@ search_outputs_clean = search_outputs %>%
 
 ### Validation----
 # Checks against validation dataset (https://www.penguinmap.com/mapppd/sources/)
-valid_ref = read_csv("../input/valid/Query060525ref.csv")
-#valid_ref = read_csv("../input/valid/all_sources.csv")
+# Original query: CountQuery_V_4_3. Had many issues in the references that I manually edited (Query060525)
 
-valid_ref = valid_ref %>% 
+valid = read_csv("../input/PenguinMap/Query060525_withref.csv")
+#valid %>% filter(is.na(ref_title)) %>% View() # 178 Personal communications and unpublished datasets
+valid %>%  distinct(doi) %>%  count() #39
+valid %>%  distinct(ref_title) %>%  count() #116
+#quizas cometi un error al limpia las referencias. Me faltan 2 creo
+
+valid_ref = valid %>% 
   #filter(!is.na(title)) %>% 
   mutate(validation_set = TRUE) %>% 
-  dplyr::mutate(title = tolower(title)) %>%
+  dplyr::mutate(title = tolower(ref_title)) %>%
   dplyr::mutate(title = gsub('  ', '',title)) %>% 
   dplyr::mutate(title = str_trim(title)) %>% 
   dplyr::mutate(title = gsub("[.]$","",title)) %>% 
-  dplyr::select(id,type, doi,title,validation_set)
-  #dplyr::select(type, doi,title,validation_set)
+  dplyr::select(id_valid = id,ref_type, doi,title,ref_year,validation_set) %>% 
+  dplyr::group_by(doi) %>% 
+  dplyr::mutate(ids_valid = paste0(id_valid, collapse = ";")) %>% 
+  dplyr::distinct(ref_type,title,doi, ref_year,.keep_all = TRUE)
 
 search_outputs_clean2 = search_outputs_clean %>% 
   mutate(search_set = TRUE) %>% 
@@ -259,26 +267,43 @@ search_outputs_clean2 = search_outputs_clean %>%
   dplyr::mutate(title = str_trim(title)) %>% 
   dplyr::mutate(title = gsub("[.]$","",title)) %>% 
   tidyr::separate(doi, into = c('extra','doi2'), sep =  '[.]org[/]') %>% 
-  dplyr::select(type,doi = doi2, title,search_set, id)
+  dplyr::select(type,doi = doi2, title ,search_set, id_search = id)
 
-check_completeness_doi = left_join(filter(search_outputs_clean2, !is.na(doi)),
+# references shared in OA search and PenguinMap
+shared_ref_doi = left_join(filter(search_outputs_clean2, !is.na(doi)),
                                valid_ref, 
                                by = 'doi') %>% 
-  filter(validation_set == TRUE & search_set == TRUE) %>% # 6
-  dplyr::select(doi, title = title.x,validation_set,id = id.x)
+  filter(validation_set == TRUE & search_set == TRUE) %>% # 14
+  dplyr::select(doi, title = title.x,validation_set,id_valid,id_search)
 
-check_completeness_title = left_join(filter(search_outputs_clean2, !is.na(title)),
+shared_ref_title = left_join(filter(search_outputs_clean2, !is.na(title)),
                                    valid_ref, 
                                    by = 'title') %>% 
   filter(validation_set == TRUE & search_set == TRUE) %>% 
-  dplyr::select(doi = doi.x, title,validation_set,id=id.x)
+  dplyr::select(doi = doi.x, title,validation_set,id_search,id_valid)
 
-check_completeness = rbind(check_completeness_title, check_completeness_doi) %>% 
-  distinct(id, .keep_all = TRUE) %>% 
-  dplyr::select(id, validation_set)
+shared_ref = rbind(shared_ref_title, shared_ref_doi) %>% 
+  distinct(id_search, .keep_all = TRUE) %>% 
+  dplyr::select(id_search, id_valid, validation_set) #18
 
+# references missing from OA search
+onlyPenguinMap_doi = anti_join(valid_ref, filter(search_outputs_clean2, !is.na(doi)),
+                           by = 'doi') %>% 
+  filter(ref_type == 'article') #52
+
+onlyPenguinMap_title = anti_join(valid_ref, filter(search_outputs_clean2, !is.na(title)),
+                             by = 'title') %>% 
+  filter(ref_type == 'article') #59         
+
+onlyPenguinMap = rbind(onlyPenguinMap_doi, onlyPenguinMap_title) %>% 
+  distinct(id_valid, .keep_all = TRUE) #62
+write_csv(onlyPenguinMap, "../input/PenguinMap/missing_ref_OAsearch.csv")
+
+names(onlyPenguinMap_title)
 # join to results
 
 search_outputs_clean = left_join(search_outputs_clean, check_completeness)
 write_csv(search_outputs_clean, paste0("../output/", iteration, "/oa_search_clean.csv"))
 
+# Check why the articles in PenguinMap did not appear in OA search
+penguinMapOnlyDoi = anti_join(valid_ref, search_outputs_clean2, by = 'doi')

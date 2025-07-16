@@ -17,8 +17,11 @@ settings <- function(){
   setwd(workdir)
   
   # 2. List of packages needed
-  listOfPackages <- c("readr", "dplyr", "stringr", "tidyr", "data.table", "openxlsx",
-                      "openalexR","pbmcapply", "targets", "diffviewer")
+  listOfPackages <- c("readr", "dplyr", "stringr", "tidyr", 
+                      "data.table", "openxlsx","gtools", 
+                      "openalexR", "ggplot2"
+                      #,"pbmcapply", "targets", "diffviewer"
+                      )
   
 
   # 3.a. Install Packages  (if needed)
@@ -31,24 +34,10 @@ settings <- function(){
   }
   
   # Instal internal IPBES package
-  library(devtools)
-  install_github("IPBES-Data/IPBES.R")
+  #library(devtools)
+  #install_github("IPBES-Data/IPBES.R")
   
 
   cat('All packages installed')
 
   }  
-
-
-
-# Install tabulizer from https://stackoverflow.com/questions/70036429/having-issues-installing-tabulizer-package-in-r
-# run following these steps:
-# 1- Download java 64-bit from https://www.java.com/en/download/
-# 2- install.packages("rJava")
-# 3- Create the Java environment through the command (check path to Java): Sys.setenv(JAVA_HOME="C:/Program Files/Java/jre-1.8/")
-# 4- library(rJava)
-# 5- devtools::install_github("ropensci/tabulizer")
-# 6- library(tabulizer)
-#library(rJava)
-#library(tabulizer)
-#library(purrr)

@@ -32,7 +32,7 @@ options(openalexR.mailto = your_email)
 
 ## Read installed libraries
 library(stringr)
-library(gtools)
+#library(gtools)
 library(dplyr)
 library(tidyr)
 library(readr)
@@ -42,11 +42,9 @@ library(openxlsx)
 library(ggplot2)
 
 library(openalexR)
-library(IPBES.R)
-library(pbapply)
+
 
 ### Set topic and iteration----
-#topics = c('species_data', 'EO_data', 'NCP', 'ecosystem_management', 'governance', 'ILK')
 iteration = 'test'
 
 # create dirs
@@ -168,14 +166,12 @@ addWorksheet(OUT, "OAsummary")
 addWorksheet(OUT, "type")
 addWorksheet(OUT, "sourceType")
 addWorksheet(OUT, "topic")
-#addWorksheet(OUT, "OAsearch")
 
 # Write the data to the sheets
 writeData(OUT, sheet = "OAsummary", x = oa_summary)
 writeData(OUT, sheet = "type", x = dplyr::select(search_outputs_byType, -key))
 writeData(OUT, sheet = "sourceType", x = dplyr::select(search_outputs_bySourceType, -key))
 writeData(OUT, sheet = "topic", x = dplyr::select(search_outputs_byTopic, -key))
-#writeData(OUT, sheet = "OAsearch", x = search_outputs_clean)
 
 # Export the file
 saveWorkbook(OUT, paste0("../output/", iteration, "/oa_results.xlsx"),overwrite = TRUE)

@@ -45,21 +45,22 @@ library(openalexR)
 
 
 ### Set topic and iteration----
-iteration = 'test'
+group = 'krill'
+iteration = 'iter_1'
 
 # create dirs
-topic_dir = paste0("../output/", iteration)
+topic_dir = paste0("../output/",group, "/", iteration)
 
 if(!dir.exists(topic_dir)){
   dir.create(topic_dir, recursive = TRUE)}
 
 ### Get keywords or search terms----
-# The search terms were provided by the authors, and some adaptations were done by the Data TSU.
-# Originals here: https://docs.google.com/spreadsheets/d/10RShduVfv16TF5KptDbpRu8yeeXBMeklPEx_kiGpOao/edit?gid=273457891#gid=273457891
+# The search terms were co-designed with experts.
+# Originals here: https://drive.google.com/drive/folders/1KxQCxxAMw9oHy9hgryhSrz0lTlxINJh8
 
-search_terms1 <- readLines(paste0("../input/search_terms/",iteration, "/species.txt")) #with breaks
-search_terms2 <- readLines(paste0("../input/search_terms/", iteration, "/regions.txt")) #with breaks
-search_terms3 <- readLines(paste0("../input/search_terms/", iteration, "/monitoring.txt")) #with breaks
+search_terms1 <- readLines(paste0("../input/", group, "/search_terms/",iteration, "/species.txt")) #with breaks
+search_terms2 <- readLines(paste0("../input/", group, "/search_terms/",iteration, "/regions.txt")) #with breaks
+search_terms3 <- readLines(paste0("../input/", group, "/search_terms/",iteration, "/monitoring.txt")) #with breaks
 #search_terms4 <- readLines(paste0("../input/search_terms/", "fr_monitoring.txt")) #with breaks
 
 # Add "" and OR
@@ -88,7 +89,7 @@ st3 <- paste0(search_terms3, collapse = " ") %>%
 st <- paste0("(", st1, ")"," AND ", "(", st2, ")"," AND ","(", st3, ")")
 #st <- paste0("(", st1, ")"," AND ", "(", st2, ")"," AND ","(", st3, ")"," AND ", "(", st4, ")")
 
-cat(st)
+cat(st) # Copy and paste in the website
 
 ### Keywords analysis----
 # Counts of hits
@@ -96,10 +97,14 @@ oa_summary = as.data.frame(openalexR::oa_fetch(title_and_abstract.search = st, #
                     count_only = TRUE, # provide summary of hits
                     verbose = TRUE))
 
+# compare to OA website
+oa_summary
+
 # Add OA link based on web serach using cat(st)
 #oa_summary$oa = 'https://openalex.org/works?page=1&filter=title_and_abstract.search%3A%28%22Pygoscelis%20adeliae%22%20OR%20%22Pygoscelis%20papua%22%20OR%20%22Pygoscelis%20antarctica%22%20OR%20%22Pygoscelis%20antarcticus%22%20OR%20%22Aptenodytes%20forsteri%22%20OR%20%22adelie%20penguin%22%20OR%20%22Ad%C3%A9lie%20penguin%22%20OR%20%22gentoo%20penguin%22%20OR%20%22Gentoo%20penguin%22%20OR%20%22Chinstrap%20penguin%22%20OR%20%22emperor%20penguin%22%20OR%20%22Pygoscelis%22%20OR%20%22Aptenodytes%22%20OR%20%22penguin%22%20OR%20%22adeliae%22%20OR%20%22papua%22%20OR%20%22antarctica%22%20OR%20%22antarcticus%22%20OR%20%22forsteri%22%20OR%20%22adelie%22%20OR%20%22Ad%C3%A9lie%22%20OR%20%22gentoo%22%20OR%20%22Gentoo%22%20OR%20%22emperor%22%29%20AND%20%28%22Antarctic%20Peninsula%20region%22%20OR%20%22Western%20Antarctic%20Peninsula%22%20OR%20%22South%20Shetland%20Islands%22%20OR%20%22South%20Orkney%20ISland%22%20OR%20%22Brandsfield%20strait%22%20OR%20%22Gerlache%20Strait%22%20OR%20%22Marguerite%20Bay%22%20OR%20%22Antarctic%20Sound%22%20OR%20%22CEMP%20site%22%20OR%20%22domain%201%22%20OR%20%22Western%20Antarctic%20Peninsula-Southscotia%20arc%22%20OR%20%22ccamlr%20subarea%22%20OR%20%22ccamlr%20region%22%20OR%20%22ccamlr%20region%2048.1%22%20OR%20%22ccamlr%20region%2048.2%22%20OR%20%22ccamlr%20region%2088.3%22%20OR%20%22ccamlr%20subarea%2048.1%22%20OR%20%22ccamlr%20subarea%2048.2%22%20OR%20%22ccamlr%20subarea%2088.3%22%29%20AND%20%28%22long%20term%22%20OR%20%22trend%22%20OR%20%22change%22%20OR%20%22seasonal%22%20OR%20%22season%22%20OR%20%22years%22%20OR%20%22decadal%22%29%20AND%20%28%22monitoring%22%20OR%20%22survey%22%20OR%20%22inventory%22%20OR%20%22census%22%20OR%20%22study%22%29&id=6emmG9dNmDmj3LpeKprGYA'
 #oa_summary$oa = 'https://openalex.org/works?page=1&filter=title_and_abstract.search%3A%28%22Pygoscelis%20adeliae%22%20OR%20%22Pygoscelis%20papua%22%20OR%20%22Pygoscelis%20antarctica%22%20OR%20%22Pygoscelis%20antarcticus%22%20OR%20%22Aptenodytes%20forsteri%22%20OR%20%22Pygoscelis%22%20OR%20%22Aptenodytes%22%20OR%20%22penguin%22%20OR%20%22adeliae%22%20OR%20%22papua%22%20OR%20%22antarcticus%22%20OR%20%22forsteri%22%20OR%20%22adelie%22%20OR%20%22Ad%C3%A9lie%22%20OR%20%22gentoo%22%20OR%20%22Chinstrap%22%20OR%20%22emperor%22%29%20AND%20%28%22Antarctic%20Peninsula%22%20OR%20%22South%20Shetland%20Islands%22%20OR%20%22South%20Orkney%20Island%22%20OR%20%22Brandsfield%20strait%22%20OR%20%22Gerlache%20Strait%22%20OR%20%22Marguerite%20Bay%22%20OR%20%22Antarctic%20Sound%22%20OR%20%22CEMP%20site%22%20OR%20%22domain%201%22%20OR%20%22subarea%2048.1%22%20OR%20%22subarea%2048.2%22%20OR%20%22subarea%2088.3%22%20OR%20%22area%2048%22%20OR%20%2248.1%22%20OR%20%2248.2%22%20OR%20%2288.3%22%20OR%20%22small-scale%20management%20unit%22%20OR%20%22ccamlr%22%29%20AND%20%28%22monitoring%22%20OR%20%22survey%22%20OR%20%22inventory%22%20OR%20%22census%22%20OR%20%22study%22%20OR%20%22Time-series%22%20OR%20%22Time%20series%22%20OR%20%22Monitor%22%20OR%20%22data%20collection%22%20OR%20%22Antarctic%20Site%20Inventory%22%20OR%20%22long%20term%22%20OR%20%22trend%22%20OR%20%22change%22%20OR%20%22seasonal%22%20OR%20%22season%22%20OR%20%22years%22%20OR%20%22decadal%22%20OR%20%22decades%22%20OR%20%22interannual%22%20OR%20%22monitored%22%20OR%20%22counts%22%20OR%20%22observation%22%29&id=2iytNJ1sKMwuJATY13C9sj'
-oa_summary$oa = 'https://openalex.org/works?page=1&filter=title_and_abstract.search%3A%28%22Pygoscelis%20adeliae%22%20OR%20%22Pygoscelis%20papua%22%20OR%20%22Pygoscelis%20antarctica%22%20OR%20%22Pygoscelis%20antarcticus%22%20OR%20%22Aptenodytes%20forsteri%22%20OR%20%22Pygoscelis%22%20OR%20%22Aptenodytes%22%20OR%20%22penguin%22%20OR%20%22adeliae%22%20OR%20%22papua%22%20OR%20%22antarcticus%22%20OR%20%22forsteri%22%20OR%20%22adelie%22%20OR%20%22Ad%C3%A9lie%22%20OR%20%22gentoo%22%20OR%20%22Chinstrap%22%20OR%20%22emperor%22%20OR%20%22seabird%22%29%20AND%20%28%22Antarctic%20Peninsula%22%20OR%20%22South%20Shetland%20Islands%22%20OR%20%22South%20Shetland%22%20OR%20%22South%20Orkney%20Island%22%20OR%20%22Brandsfield%20strait%22%20OR%20%22Gerlache%20Strait%22%20OR%20%22Marguerite%20Bay%22%20OR%20%22Antarctic%20Sound%22%20OR%20%22CEMP%20site%22%20OR%20%22domain%201%22%20OR%20%22subarea%2048.1%22%20OR%20%22subarea%2048.2%22%20OR%20%22subarea%2088.3%22%20OR%20%22area%2048%22%20OR%20%2248.1%22%20OR%20%2248.2%22%20OR%20%2288.3%22%20OR%20%22small-scale%20management%20unit%22%20OR%20%22ccamlr%22%20OR%20%22King%20George%20Island%22%20OR%20%22Nelson%20Island%22%20OR%20%22Deception%20Island%22%20OR%20%22Seymour%20Island%22%29%20AND%20%28%22monitoring%22%20OR%20%22monitor%22%20OR%20%22monitored%22%20OR%20%22survey%22%20OR%20%22surveyed%22%20OR%20%22inventory%22%20OR%20%22census%22%20OR%20%22study%22%20OR%20%22time-series%22%20OR%20%22time%20series%22%20OR%20%22data%20collection%22%20OR%20%22Antarctic%20Site%20Inventory%22%20OR%20%22long%20term%22%20OR%20%22trend%22%20OR%20%22change%22%20OR%20%22seasonal%22%20OR%20%22season%22%20OR%20%22years%22%20OR%20%22decadal%22%20OR%20%22decade%22%20OR%20%22interannual%22%20OR%20%22inter-annual%22%20OR%20%22count%22%20OR%20%22counted%22%20OR%20%22observation%22%20OR%20%22observed%22%20OR%20%22satellite%22%20OR%20%22remote%20sensing%22%20OR%20%22time-lapse%20camera%22%29&id=2EzSqfzZ7TsQqouCkXCW9Q'
+#oa_summary$oa = 'https://openalex.org/works?page=1&filter=title_and_abstract.search%3A%28%22Pygoscelis%20adeliae%22%20OR%20%22Pygoscelis%20papua%22%20OR%20%22Pygoscelis%20antarctica%22%20OR%20%22Pygoscelis%20antarcticus%22%20OR%20%22Aptenodytes%20forsteri%22%20OR%20%22Pygoscelis%22%20OR%20%22Aptenodytes%22%20OR%20%22penguin%22%20OR%20%22adeliae%22%20OR%20%22papua%22%20OR%20%22antarcticus%22%20OR%20%22forsteri%22%20OR%20%22adelie%22%20OR%20%22Ad%C3%A9lie%22%20OR%20%22gentoo%22%20OR%20%22Chinstrap%22%20OR%20%22emperor%22%20OR%20%22seabird%22%29%20AND%20%28%22Antarctic%20Peninsula%22%20OR%20%22South%20Shetland%20Islands%22%20OR%20%22South%20Shetland%22%20OR%20%22South%20Orkney%20Island%22%20OR%20%22Brandsfield%20strait%22%20OR%20%22Gerlache%20Strait%22%20OR%20%22Marguerite%20Bay%22%20OR%20%22Antarctic%20Sound%22%20OR%20%22CEMP%20site%22%20OR%20%22domain%201%22%20OR%20%22subarea%2048.1%22%20OR%20%22subarea%2048.2%22%20OR%20%22subarea%2088.3%22%20OR%20%22area%2048%22%20OR%20%2248.1%22%20OR%20%2248.2%22%20OR%20%2288.3%22%20OR%20%22small-scale%20management%20unit%22%20OR%20%22ccamlr%22%20OR%20%22King%20George%20Island%22%20OR%20%22Nelson%20Island%22%20OR%20%22Deception%20Island%22%20OR%20%22Seymour%20Island%22%29%20AND%20%28%22monitoring%22%20OR%20%22monitor%22%20OR%20%22monitored%22%20OR%20%22survey%22%20OR%20%22surveyed%22%20OR%20%22inventory%22%20OR%20%22census%22%20OR%20%22study%22%20OR%20%22time-series%22%20OR%20%22time%20series%22%20OR%20%22data%20collection%22%20OR%20%22Antarctic%20Site%20Inventory%22%20OR%20%22long%20term%22%20OR%20%22trend%22%20OR%20%22change%22%20OR%20%22seasonal%22%20OR%20%22season%22%20OR%20%22years%22%20OR%20%22decadal%22%20OR%20%22decade%22%20OR%20%22interannual%22%20OR%20%22inter-annual%22%20OR%20%22count%22%20OR%20%22counted%22%20OR%20%22observation%22%20OR%20%22observed%22%20OR%20%22satellite%22%20OR%20%22remote%20sensing%22%20OR%20%22time-lapse%20camera%22%29&id=2EzSqfzZ7TsQqouCkXCW9Q'
+oa_summary$oa = 'https://openalex.org/works?page=1&filter=title_and_abstract.search:(%22krill%22+OR+%22antarctic+krill%22+OR+%22Euphasia+superba%22+OR+%22Euphasia+%22)+AND+(%22Antarctic+Peninsula%22+OR+%22South+Shetland+Islands%22+OR+%22South+Shetland%22+OR+%22South+Orkney+Island%22+OR+%22Brandsfield+strait%22+OR+%22Gerlache+Strait%22+OR+%22Marguerite+Bay%22+OR+%22Antarctic+Sound%22+OR+%22CEMP+site%22+OR+%22domain+1%22+OR+%22subarea+48.1%22+OR+%22subarea+48.2%22+OR+%22subarea+88.3%22+OR+%22area+48%22+OR+%2248.1%22+OR+%2248.2%22+OR+%2288.3%22+OR+%22King+George+Island%22+OR+%22Nelson+Island%22+OR+%22Deception+Island%22+OR+%22Seymour+Island%22+OR+%22Spawning+hotspot%22+OR+%22nursery+area%22)+AND+(%22monitoring%22+OR+%22monitor%22+OR+%22monitored%22+OR+%22survey%22+OR+%22surveyed%22+OR+%22inventory%22+OR+%22study%22+OR+%22time-series%22+OR+%22time+series%22+OR+%22data+collection%22+OR+%22Antarctic+Site+Inventory%22+OR+%22long+term%22+OR+%22Abundance%22+OR+%22biomass%22+OR+%22densities%22+OR+%22density%22+OR+%22season%22+OR+%22seasonal%22+OR+%22seasonality%22+OR+%22years%22+OR+%22decadal%22+OR+%22decade%22+OR+%22interannual%22+OR+%22inter-annual%22+OR+%22trend%22+OR+%22change%22+OR+%22variability%22+OR+%22Distribution%22+OR+%22acoustic%22+OR+%22stock%22+OR+%22fisheries%22+OR+%22harvest%22)&id=mTnpdtXuPAWw9m8Bov3zYK'
 
 # DO NOT RUN FOR NOW
 # Contribution of each term individually (the counts exclude hits that can be retrieved with other terms)
@@ -174,7 +179,7 @@ writeData(OUT, sheet = "sourceType", x = dplyr::select(search_outputs_bySourceTy
 writeData(OUT, sheet = "topic", x = dplyr::select(search_outputs_byTopic, -key))
 
 # Export the file
-saveWorkbook(OUT, paste0("../output/", iteration, "/oa_results.xlsx"),overwrite = TRUE)
+saveWorkbook(OUT, paste0("../output/", group, "/", iteration, "/oa_results.xlsx"),overwrite = TRUE)
 
 ### Get data from OpenAlex----
 search_outputs <- oa_fetch(
@@ -186,7 +191,7 @@ search_outputs <- oa_fetch(
 # the url only shows the first page
 
 # save output
-write_csv(search_outputs, paste0("../output/", iteration, "/oa_search.csv"))
+write_csv(search_outputs, paste0("../output/", group, "/", iteration, "/oa_search.csv"))
 
 # Clean results
 
@@ -235,88 +240,87 @@ search_outputs_clean = search_outputs %>%
   mutate(id = row_number())
 
 # save output
-write_csv(search_outputs_clean, paste0("../output/", iteration, "/oa_search_clean.csv"))
-#search_outputs_clean = read_csv(paste0("../output/", iteration, "/oa_search_clean.csv"))
+write_csv(search_outputs_clean, paste0("../output/",group, "/", iteration, "/oa_search_clean.csv"))
 
 ### Validation----
-# DO NOT RUN, SPECIFIC FOR PENGUIN DATA 
-
-# Find extra articles for the new search
-search_outputs_old = read_csv(paste0("../output/iter_3/oa_search.csv")) # not saving properly so downloaded again
-names(search_outputs_old)
-
-only_new_search_clean = search_outputs_clean %>% 
-  anti_join(search_outputs_clean_old, by = 'doi')
-#c('id', 'doi')
-write_csv(only_new_search_clean, paste0("../output/", iteration, "/onlyIter4_oa_search_clean.csv"))
-
-
-
-# Checks against validation dataset (https://www.penguinmap.com/mapppd/sources/)
-# Original query: CountQuery_V_4_3. Had many issues in the references that I manually edited (Query060525)
-
-valid = read_csv("../input/PenguinMap/Query060525_withref.csv")
-#valid %>% filter(is.na(ref_title)) %>% View() # 178 Personal communications and unpublished datasets
-valid %>%  distinct(doi) %>%  count() #39
-valid %>%  distinct(ref_title) %>%  count() #116
-#quizas cometi un error al limpia las referencias. Me faltan 2 creo
-
-valid_ref = valid %>% 
-  #filter(!is.na(title)) %>% 
-  mutate(validation_set = TRUE) %>% 
-  dplyr::mutate(title = tolower(ref_title)) %>%
-  dplyr::mutate(title = gsub('  ', '',title)) %>% 
-  dplyr::mutate(title = str_trim(title)) %>% 
-  dplyr::mutate(title = gsub("[.]$","",title)) %>% 
-  dplyr::select(id_valid = id,ref_type, doi,title,ref_year,validation_set) %>% 
-  dplyr::group_by(doi) %>% 
-  dplyr::mutate(ids_valid = paste0(id_valid, collapse = ";")) %>% 
-  dplyr::distinct(ref_type,title,doi, ref_year,.keep_all = TRUE)
-
-search_outputs_clean2 = search_outputs_clean %>% 
-  mutate(search_set = TRUE) %>% 
-  dplyr::mutate(title = tolower(title)) %>%
-  dplyr::mutate(title = gsub('  ', '',title)) %>% 
-  dplyr::mutate(title = str_trim(title)) %>% 
-  dplyr::mutate(title = gsub("[.]$","",title)) %>% 
-  tidyr::separate(doi, into = c('extra','doi2'), sep =  '[.]org[/]') %>% 
-  dplyr::select(type,doi = doi2, title ,search_set, id_search = id)
-
-# references shared in OA search and PenguinMap
-shared_ref_doi = left_join(filter(search_outputs_clean2, !is.na(doi)),
-                               valid_ref, 
-                               by = 'doi') %>% 
-  filter(validation_set == TRUE & search_set == TRUE) %>% # 14
-  dplyr::select(doi, title = title.x,validation_set,id_valid,id_search)
-
-shared_ref_title = left_join(filter(search_outputs_clean2, !is.na(title)),
-                                   valid_ref, 
-                                   by = 'title') %>% 
-  filter(validation_set == TRUE & search_set == TRUE) %>% 
-  dplyr::select(doi = doi.x, title,validation_set,id_search,id_valid)
-
-shared_ref = rbind(shared_ref_title, shared_ref_doi) %>% 
-  distinct(id_search, .keep_all = TRUE) %>% 
-  dplyr::select(id_search, id_valid, validation_set) #18
-
-# references missing from OA search
-onlyPenguinMap_doi = anti_join(valid_ref, filter(search_outputs_clean2, !is.na(doi)),
-                           by = 'doi') %>% 
-  filter(ref_type == 'article') #52
-
-onlyPenguinMap_title = anti_join(valid_ref, filter(search_outputs_clean2, !is.na(title)),
-                             by = 'title') %>% 
-  filter(ref_type == 'article') #59         
-
-onlyPenguinMap = rbind(onlyPenguinMap_doi, onlyPenguinMap_title) %>% 
-  distinct(id_valid, .keep_all = TRUE) #62
-write_csv(onlyPenguinMap, "../input/PenguinMap/missing_ref_OAsearch.csv")
-
-names(onlyPenguinMap_title)
-# join to results
-
-search_outputs_clean = left_join(search_outputs_clean, check_completeness)
-write_csv(search_outputs_clean, paste0("../output/", iteration, "/oa_search_clean.csv"))
-
-# Check why the articles in PenguinMap did not appear in OA search
-penguinMapOnlyDoi = anti_join(valid_ref, search_outputs_clean2, by = 'doi')
+## DO NOT RUN, SPECIFIC FOR PENGUIN DATA 
+# 
+# # Find extra articles for the new search
+# search_outputs_old = read_csv(paste0("../output/iter_3/oa_search.csv")) # not saving properly so downloaded again
+# names(search_outputs_old)
+# 
+# only_new_search_clean = search_outputs_clean %>% 
+#   anti_join(search_outputs_clean_old, by = 'doi')
+# #c('id', 'doi')
+# write_csv(only_new_search_clean, paste0("../output/", iteration, "/onlyIter4_oa_search_clean.csv"))
+# 
+# 
+# 
+# # Checks against validation dataset (https://www.penguinmap.com/mapppd/sources/)
+# # Original query: CountQuery_V_4_3. Had many issues in the references that I manually edited (Query060525)
+# 
+# valid = read_csv("../input/PenguinMap/Query060525_withref.csv")
+# #valid %>% filter(is.na(ref_title)) %>% View() # 178 Personal communications and unpublished datasets
+# valid %>%  distinct(doi) %>%  count() #39
+# valid %>%  distinct(ref_title) %>%  count() #116
+# #quizas cometi un error al limpia las referencias. Me faltan 2 creo
+# 
+# valid_ref = valid %>% 
+#   #filter(!is.na(title)) %>% 
+#   mutate(validation_set = TRUE) %>% 
+#   dplyr::mutate(title = tolower(ref_title)) %>%
+#   dplyr::mutate(title = gsub('  ', '',title)) %>% 
+#   dplyr::mutate(title = str_trim(title)) %>% 
+#   dplyr::mutate(title = gsub("[.]$","",title)) %>% 
+#   dplyr::select(id_valid = id,ref_type, doi,title,ref_year,validation_set) %>% 
+#   dplyr::group_by(doi) %>% 
+#   dplyr::mutate(ids_valid = paste0(id_valid, collapse = ";")) %>% 
+#   dplyr::distinct(ref_type,title,doi, ref_year,.keep_all = TRUE)
+# 
+# search_outputs_clean2 = search_outputs_clean %>% 
+#   mutate(search_set = TRUE) %>% 
+#   dplyr::mutate(title = tolower(title)) %>%
+#   dplyr::mutate(title = gsub('  ', '',title)) %>% 
+#   dplyr::mutate(title = str_trim(title)) %>% 
+#   dplyr::mutate(title = gsub("[.]$","",title)) %>% 
+#   tidyr::separate(doi, into = c('extra','doi2'), sep =  '[.]org[/]') %>% 
+#   dplyr::select(type,doi = doi2, title ,search_set, id_search = id)
+# 
+# # references shared in OA search and PenguinMap
+# shared_ref_doi = left_join(filter(search_outputs_clean2, !is.na(doi)),
+#                                valid_ref, 
+#                                by = 'doi') %>% 
+#   filter(validation_set == TRUE & search_set == TRUE) %>% # 14
+#   dplyr::select(doi, title = title.x,validation_set,id_valid,id_search)
+# 
+# shared_ref_title = left_join(filter(search_outputs_clean2, !is.na(title)),
+#                                    valid_ref, 
+#                                    by = 'title') %>% 
+#   filter(validation_set == TRUE & search_set == TRUE) %>% 
+#   dplyr::select(doi = doi.x, title,validation_set,id_search,id_valid)
+# 
+# shared_ref = rbind(shared_ref_title, shared_ref_doi) %>% 
+#   distinct(id_search, .keep_all = TRUE) %>% 
+#   dplyr::select(id_search, id_valid, validation_set) #18
+# 
+# # references missing from OA search
+# onlyPenguinMap_doi = anti_join(valid_ref, filter(search_outputs_clean2, !is.na(doi)),
+#                            by = 'doi') %>% 
+#   filter(ref_type == 'article') #52
+# 
+# onlyPenguinMap_title = anti_join(valid_ref, filter(search_outputs_clean2, !is.na(title)),
+#                              by = 'title') %>% 
+#   filter(ref_type == 'article') #59         
+# 
+# onlyPenguinMap = rbind(onlyPenguinMap_doi, onlyPenguinMap_title) %>% 
+#   distinct(id_valid, .keep_all = TRUE) #62
+# write_csv(onlyPenguinMap, "../input/PenguinMap/missing_ref_OAsearch.csv")
+# 
+# names(onlyPenguinMap_title)
+# # join to results
+# 
+# search_outputs_clean = left_join(search_outputs_clean, check_completeness)
+# write_csv(search_outputs_clean, paste0("../output/", iteration, "/oa_search_clean.csv"))
+# 
+# # Check why the articles in PenguinMap did not appear in OA search
+# penguinMapOnlyDoi = anti_join(valid_ref, search_outputs_clean2, by = 'doi')

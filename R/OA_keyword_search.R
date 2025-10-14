@@ -46,7 +46,7 @@ library(openalexR)
 
 ### Set topic and iteration----
 group = 'krill'
-iteration = 'iter_1'
+iteration = 'iter_2'
 
 # create dirs
 topic_dir = paste0("../output/",group, "/", iteration)

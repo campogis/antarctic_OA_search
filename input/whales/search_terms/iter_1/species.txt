@@ -1,0 +1,14 @@
+whale
+minke
+Humpback
+Balaenoptera bonaerensis
+Megaptera novaeangliae
+orca
+orcinus orca
+killer whale
+blue whale
+baleen 
+fin whale
+cetacean
+Balaenoptera musculus
+Balaenoptera physalus

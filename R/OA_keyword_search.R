@@ -42,7 +42,8 @@ library(openxlsx)
 library(ggplot2)
 
 library(openalexR)
-
+# file.edit("~/.Rprofile")
+# options(openalexR.apikey = "tkXqrtWG8WkVn2ypXYT1cl")
 
 ### Set topic and iteration----
 group = 'whales'
@@ -82,6 +83,7 @@ st2 <- paste0(search_terms2, collapse = " ") %>%
   compact_st() #no breaks
 st3 <- paste0(search_terms3, collapse = " ") %>% 
   compact_st() #no breaks
+
 #st4 <- paste0(search_terms4, collapse = " ") %>% 
 #  compact_st() #no breaks
 
@@ -91,12 +93,28 @@ st <- paste0("(", st1, ")"," AND ", "(", st2, ")"," AND ","(", st3, ")")
 
 cat(st) # Copy and paste in the website
 
+###ERROR (st que si funciona)
+#st = '(whale OR minke OR Humpback OR "Balaenoptera bonaerensis" OR "Megaptera novaeangliae" OR orca OR "orcinus orca" OR "killer whale" OR "blue whale" OR baleen OR "fin whale" OR cetacean OR "Balaenoptera musculus" OR "Balaenoptera physalus") AND ("Antarctic Peninsula" OR "South Shetland Islands" OR "South Shetland" OR "South Orkney Island" OR "Bransfield strait" OR "Gerlache Strait" OR "Marguerite Bay" OR "Antarctic Sound" OR "CEMP site" OR "domain 1" OR "subarea 48.1" OR "subarea 48.2" OR "subarea 88.3" OR "area 48" OR 48.1 OR 48.2 OR 88.3 OR "King George Island" OR "Nelson Island" OR "Deception Island" OR "Seymour Island" OR "Elephant island" OR D1MPA OR "scotia arc") AND (monitoring OR monitor OR monitored OR survey OR surveyed OR inventory OR study OR "time-series" OR "time series" OR "data collection" OR "long term" OR Abundance OR densities OR density OR season OR seasonal OR seasonality OR years OR decadal OR decade OR interannual OR "inter-annual" OR trend OR change OR Distribution OR "Sighting Surveys" OR "Photo identification" OR "photo ID" OR "drone survey" OR Telemetry OR "Passive acoustic monitoring" OR Tagging OR tag OR "data logger" OR hydrophone OR PAM OR clicks OR whistles OR "fin ID" OR "gps tag" OR "population recovery" OR bycatch)'
+
+
 ### Keywords analysis----
 # Counts of hits
-oa_summary = as.data.frame(openalexR::oa_fetch(
-  title_and_abstract.search = st,# keywords without breaks in titles and abstracts
-  count_only = TRUE, # provide summary of hits
-  verbose = TRUE))
+
+oa_result = openalexR::oa_fetch(
+  title_and_abstract.search = st,
+  count_only = TRUE,
+  verbose = TRUE
+)
+
+# since groups are NULL we create the data.frame separately to avoid problems
+oa_summary <- data.frame(
+  count = oa_result$count,
+  db_response_time_ms = oa_result$db_response_time_ms,
+  page = oa_result$page,
+  per_page = oa_result$per_page,
+  groups_count =  'NULL' # we did not ask for any grouping
+)
+#keyword example c("bibliometric analysis", "science mapping")
 
 # compare to OA website
 oa_summary
@@ -106,7 +124,8 @@ oa_summary
 #oa_summary$oa = 'https://openalex.org/works?page=1&filter=title_and_abstract.search%3A%28%22Pygoscelis%20adeliae%22%20OR%20%22Pygoscelis%20papua%22%20OR%20%22Pygoscelis%20antarctica%22%20OR%20%22Pygoscelis%20antarcticus%22%20OR%20%22Aptenodytes%20forsteri%22%20OR%20%22Pygoscelis%22%20OR%20%22Aptenodytes%22%20OR%20%22penguin%22%20OR%20%22adeliae%22%20OR%20%22papua%22%20OR%20%22antarcticus%22%20OR%20%22forsteri%22%20OR%20%22adelie%22%20OR%20%22Ad%C3%A9lie%22%20OR%20%22gentoo%22%20OR%20%22Chinstrap%22%20OR%20%22emperor%22%29%20AND%20%28%22Antarctic%20Peninsula%22%20OR%20%22South%20Shetland%20Islands%22%20OR%20%22South%20Orkney%20Island%22%20OR%20%22Brandsfield%20strait%22%20OR%20%22Gerlache%20Strait%22%20OR%20%22Marguerite%20Bay%22%20OR%20%22Antarctic%20Sound%22%20OR%20%22CEMP%20site%22%20OR%20%22domain%201%22%20OR%20%22subarea%2048.1%22%20OR%20%22subarea%2048.2%22%20OR%20%22subarea%2088.3%22%20OR%20%22area%2048%22%20OR%20%2248.1%22%20OR%20%2248.2%22%20OR%20%2288.3%22%20OR%20%22small-scale%20management%20unit%22%20OR%20%22ccamlr%22%29%20AND%20%28%22monitoring%22%20OR%20%22survey%22%20OR%20%22inventory%22%20OR%20%22census%22%20OR%20%22study%22%20OR%20%22Time-series%22%20OR%20%22Time%20series%22%20OR%20%22Monitor%22%20OR%20%22data%20collection%22%20OR%20%22Antarctic%20Site%20Inventory%22%20OR%20%22long%20term%22%20OR%20%22trend%22%20OR%20%22change%22%20OR%20%22seasonal%22%20OR%20%22season%22%20OR%20%22years%22%20OR%20%22decadal%22%20OR%20%22decades%22%20OR%20%22interannual%22%20OR%20%22monitored%22%20OR%20%22counts%22%20OR%20%22observation%22%29&id=2iytNJ1sKMwuJATY13C9sj'
 #oa_summary$oa = 'https://openalex.org/works?page=1&filter=title_and_abstract.search%3A%28%22Pygoscelis%20adeliae%22%20OR%20%22Pygoscelis%20papua%22%20OR%20%22Pygoscelis%20antarctica%22%20OR%20%22Pygoscelis%20antarcticus%22%20OR%20%22Aptenodytes%20forsteri%22%20OR%20%22Pygoscelis%22%20OR%20%22Aptenodytes%22%20OR%20%22penguin%22%20OR%20%22adeliae%22%20OR%20%22papua%22%20OR%20%22antarcticus%22%20OR%20%22forsteri%22%20OR%20%22adelie%22%20OR%20%22Ad%C3%A9lie%22%20OR%20%22gentoo%22%20OR%20%22Chinstrap%22%20OR%20%22emperor%22%20OR%20%22seabird%22%29%20AND%20%28%22Antarctic%20Peninsula%22%20OR%20%22South%20Shetland%20Islands%22%20OR%20%22South%20Shetland%22%20OR%20%22South%20Orkney%20Island%22%20OR%20%22Brandsfield%20strait%22%20OR%20%22Gerlache%20Strait%22%20OR%20%22Marguerite%20Bay%22%20OR%20%22Antarctic%20Sound%22%20OR%20%22CEMP%20site%22%20OR%20%22domain%201%22%20OR%20%22subarea%2048.1%22%20OR%20%22subarea%2048.2%22%20OR%20%22subarea%2088.3%22%20OR%20%22area%2048%22%20OR%20%2248.1%22%20OR%20%2248.2%22%20OR%20%2288.3%22%20OR%20%22small-scale%20management%20unit%22%20OR%20%22ccamlr%22%20OR%20%22King%20George%20Island%22%20OR%20%22Nelson%20Island%22%20OR%20%22Deception%20Island%22%20OR%20%22Seymour%20Island%22%29%20AND%20%28%22monitoring%22%20OR%20%22monitor%22%20OR%20%22monitored%22%20OR%20%22survey%22%20OR%20%22surveyed%22%20OR%20%22inventory%22%20OR%20%22census%22%20OR%20%22study%22%20OR%20%22time-series%22%20OR%20%22time%20series%22%20OR%20%22data%20collection%22%20OR%20%22Antarctic%20Site%20Inventory%22%20OR%20%22long%20term%22%20OR%20%22trend%22%20OR%20%22change%22%20OR%20%22seasonal%22%20OR%20%22season%22%20OR%20%22years%22%20OR%20%22decadal%22%20OR%20%22decade%22%20OR%20%22interannual%22%20OR%20%22inter-annual%22%20OR%20%22count%22%20OR%20%22counted%22%20OR%20%22observation%22%20OR%20%22observed%22%20OR%20%22satellite%22%20OR%20%22remote%20sensing%22%20OR%20%22time-lapse%20camera%22%29&id=2EzSqfzZ7TsQqouCkXCW9Q'
 #oa_summary$oa = 'https://openalex.org/works?page=1&filter=title_and_abstract.search:(%22krill%22+OR+%22antarctic+krill%22+OR+%22Euphasia+superba%22+OR+%22Euphasia+%22)+AND+(%22Antarctic+Peninsula%22+OR+%22South+Shetland+Islands%22+OR+%22South+Shetland%22+OR+%22South+Orkney+Island%22+OR+%22Brandsfield+strait%22+OR+%22Gerlache+Strait%22+OR+%22Marguerite+Bay%22+OR+%22Antarctic+Sound%22+OR+%22CEMP+site%22+OR+%22domain+1%22+OR+%22subarea+48.1%22+OR+%22subarea+48.2%22+OR+%22subarea+88.3%22+OR+%22area+48%22+OR+%2248.1%22+OR+%2248.2%22+OR+%2288.3%22+OR+%22King+George+Island%22+OR+%22Nelson+Island%22+OR+%22Deception+Island%22+OR+%22Seymour+Island%22+OR+%22Spawning+hotspot%22+OR+%22nursery+area%22)+AND+(%22monitoring%22+OR+%22monitor%22+OR+%22monitored%22+OR+%22survey%22+OR+%22surveyed%22+OR+%22inventory%22+OR+%22study%22+OR+%22time-series%22+OR+%22time+series%22+OR+%22data+collection%22+OR+%22Antarctic+Site+Inventory%22+OR+%22long+term%22+OR+%22Abundance%22+OR+%22biomass%22+OR+%22densities%22+OR+%22density%22+OR+%22season%22+OR+%22seasonal%22+OR+%22seasonality%22+OR+%22years%22+OR+%22decadal%22+OR+%22decade%22+OR+%22interannual%22+OR+%22inter-annual%22+OR+%22trend%22+OR+%22change%22+OR+%22variability%22+OR+%22Distribution%22+OR+%22acoustic%22+OR+%22stock%22+OR+%22fisheries%22+OR+%22harvest%22)&id=mTnpdtXuPAWw9m8Bov3zYK'
-oa_summary$oa = "https://openalex.org/works?page=1&filter=title_and_abstract.search:(%22whale%22+OR+%22minke%22+OR+%22Humpback%22+OR+%22Balaenoptera+bonaerensis%22+OR+%22Megaptera+novaeangliae%22+OR+%22orca%22+OR+%22orcinus+orca%22+OR+%22killer+whale%22)+AND+(%22Antarctic+Peninsula%22+OR+%22South+Shetland+Islands%22+OR+%22South+Shetland%22+OR+%22South+Orkney+Island%22+OR+%22Brandsfield+strait%22+OR+%22Gerlache+Strait%22+OR+%22Marguerite+Bay%22+OR+%22Antarctic+Sound%22+OR+%22CEMP+site%22+OR+%22domain+1%22+OR+%22subarea+48.1%22+OR+%22subarea+48.2%22+OR+%22subarea+88.3%22+OR+%22area+48%22+OR+%2248.1%22+OR+%2248.2%22+OR+%2288.3%22+OR+%22King+George+Island%22+OR+%22Nelson+Island%22+OR+%22Deception+Island%22+OR+%22Seymour+Island%22+OR+%22%22)+AND+(%22monitoring%22+OR+%22monitor%22+OR+%22monitored%22+OR+%22survey%22+OR+%22surveyed%22+OR+%22inventory%22+OR+%22study%22+OR+%22time-series%22+OR+%22time+series%22+OR+%22data+collection%22+OR+%22Antarctic+Site+Inventory%22+OR+%22long+term%22+OR+%22Abundance%22+OR+%22densities%22+OR+%22density%22+OR+%22season%22+OR+%22seasonal%22+OR+%22seasonality%22+OR+%22years%22+OR+%22decadal%22+OR+%22decade%22+OR+%22interannual%22+OR+%22inter-annual%22+OR+%22trend%22+OR+%22change%22+OR+%22variability%22+OR+%22Distribution%22+OR+%22acoustic%22+OR+%22Sighting+Surveys%22+OR+%22Photo-identification%22+OR+%22drone+survey%22+OR+%22Telemetry%22+OR+%22Passive+Acoustic%22+OR+%22Tagging%22+OR+%22tag%22+OR+%22data+logger%22+OR+%22hydrophone%22+OR+%22PAM%22+OR+%22clicks%22+OR+%22whistles%22+OR+%22fin-ID%22+OR+%22gps+tag%22)&id=rEaEMAKmUHijuAYv3ozjy7"
+#oa_summary$oa = "https://openalex.org/works?page=1&filter=title_and_abstract.search:(%22whale%22+OR+%22minke%22+OR+%22Humpback%22+OR+%22Balaenoptera+bonaerensis%22+OR+%22Megaptera+novaeangliae%22+OR+%22orca%22+OR+%22orcinus+orca%22+OR+%22killer+whale%22)+AND+(%22Antarctic+Peninsula%22+OR+%22South+Shetland+Islands%22+OR+%22South+Shetland%22+OR+%22South+Orkney+Island%22+OR+%22Brandsfield+strait%22+OR+%22Gerlache+Strait%22+OR+%22Marguerite+Bay%22+OR+%22Antarctic+Sound%22+OR+%22CEMP+site%22+OR+%22domain+1%22+OR+%22subarea+48.1%22+OR+%22subarea+48.2%22+OR+%22subarea+88.3%22+OR+%22area+48%22+OR+%2248.1%22+OR+%2248.2%22+OR+%2288.3%22+OR+%22King+George+Island%22+OR+%22Nelson+Island%22+OR+%22Deception+Island%22+OR+%22Seymour+Island%22+OR+%22%22)+AND+(%22monitoring%22+OR+%22monitor%22+OR+%22monitored%22+OR+%22survey%22+OR+%22surveyed%22+OR+%22inventory%22+OR+%22study%22+OR+%22time-series%22+OR+%22time+series%22+OR+%22data+collection%22+OR+%22Antarctic+Site+Inventory%22+OR+%22long+term%22+OR+%22Abundance%22+OR+%22densities%22+OR+%22density%22+OR+%22season%22+OR+%22seasonal%22+OR+%22seasonality%22+OR+%22years%22+OR+%22decadal%22+OR+%22decade%22+OR+%22interannual%22+OR+%22inter-annual%22+OR+%22trend%22+OR+%22change%22+OR+%22variability%22+OR+%22Distribution%22+OR+%22acoustic%22+OR+%22Sighting+Surveys%22+OR+%22Photo-identification%22+OR+%22drone+survey%22+OR+%22Telemetry%22+OR+%22Passive+Acoustic%22+OR+%22Tagging%22+OR+%22tag%22+OR+%22data+logger%22+OR+%22hydrophone%22+OR+%22PAM%22+OR+%22clicks%22+OR+%22whistles%22+OR+%22fin-ID%22+OR+%22gps+tag%22)&id=rEaEMAKmUHijuAYv3ozjy7"
+oa_summary$oa = 'https://openalex.org/works?page=1&filter=title_and_abstract.search:(%22whale%22+OR+%22minke%22+OR+%22Humpback%22+OR+%22Balaenoptera+bonaerensis%22+OR+%22Megaptera+novaeangliae%22+OR+%22orca%22+OR+%22orcinus+orca%22+OR+%22killer+whale%22+OR+%22blue+whale%22+OR+%22baleen+%22+OR+%22fin+whale%22+OR+%22cetacean%22+OR+%22Balaenoptera+musculus%22+OR+%22Balaenoptera+physalus%22)+AND+(%22Antarctic+Peninsula%22+OR+%22South+Shetland+Islands%22+OR+%22South+Shetland%22+OR+%22South+Orkney+Island%22+OR+%22Bransfield+strait%22+OR+%22Gerlache+Strait%22+OR+%22Marguerite+Bay%22+OR+%22Antarctic+Sound%22+OR+%22CEMP+site%22+OR+%22domain+1%22+OR+%22subarea+48.1%22+OR+%22subarea+48.2%22+OR+%22subarea+88.3%22+OR+%22area+48%22+OR+%2248.1%22+OR+%2248.2%22+OR+%2288.3%22+OR+%22King+George+Island%22+OR+%22Nelson+Island%22+OR+%22Deception+Island%22+OR+%22Seymour+Island%22+OR+%22Elephant+island%22+OR+%22D1MPA%22+OR+%22scotia+arc%22)+AND+(%22monitoring%22+OR+%22monitor%22+OR+%22monitored%22+OR+%22survey%22+OR+%22surveyed%22+OR+%22inventory%22+OR+%22study%22+OR+%22time-series%22+OR+%22time+series%22+OR+%22data+collection%22+OR+%22long+term%22+OR+%22Abundance%22+OR+%22densities%22+OR+%22density%22+OR+%22season%22+OR+%22seasonal%22+OR+%22seasonality%22+OR+%22years%22+OR+%22decadal%22+OR+%22decade%22+OR+%22interannual%22+OR+%22inter-annual%22+OR+%22trend%22+OR+%22change%22+OR+%22Distribution%22+OR+%22Sighting+Surveys%22+OR+%22Photo+identification%22+OR+%22photo+ID%22+OR+%22drone+survey%22+OR+%22Telemetry%22+OR+%22Passive+acoustic+monitoring%22+OR+%22Tagging%22+OR+%22tag%22+OR+%22data+logger%22+OR+%22hydrophone%22+OR+%22PAM%22+OR+%22clicks%22+OR+%22whistles%22+OR+%22fin+ID%22+OR+%22gps+tag%22+OR+%22population+recovery%22+OR+%22bycatch%22)'
 
 # DO NOT RUN FOR NOW
 # Contribution of each term individually (the counts exclude hits that can be retrieved with other terms)
@@ -189,18 +208,17 @@ search_outputs <- oa_fetch(
   title_and_abstract.search = st,
   count_only = FALSE,
   verbose = TRUE,
-  mailto = oa_email(),
-  .name_repair = "unique")
-library(janitor)
+  mailto = oa_email())
+
 # the url only shows the first page
 
 # save output
 write_csv(search_outputs, paste0("../output/", group, "/", iteration, "/oa_search.csv"))
 
 # Clean results
-
+names(search_outputs)
 search_outputs_clean = search_outputs %>% 
-  # remove GBIF downloads
+  # remove GBIF downloads (REHACER con GBIF.Org User en author!!!!!!)
   mutate(remove = if_else(grepl("www[.]gbif[.]org/occurrence/download",oa_url),
                                   true = 'yes',
                                   false = 'no')) %>% 
@@ -214,12 +232,12 @@ search_outputs_clean = search_outputs %>%
   #   paste(y$display_name, collapse = "; ")
   # })) %>%
   # concepts
-  mutate(concept = sapply(concepts, function(x) {
-    # Filter for scores greater than 0.5
-    filtered_scores <- x[x$score > 0.5, ]
-    # Combine the display names of the filtered authors
-    paste(filtered_scores$display_name, collapse = "; ")
-  })) %>% 
+  # mutate(concept = sapply(concepts, function(x) {
+  #   # Filter for scores greater than 0.5
+  #   filtered_scores <- x[x$score > 0.5, ]
+  #   # Combine the display names of the filtered authors
+  #   paste(filtered_scores$display_name, collapse = "; ")
+  # })) %>% 
   # topics (topic)
   mutate(topic = sapply(topics, function(x) {
   # Filter for types
@@ -237,7 +255,8 @@ search_outputs_clean = search_outputs %>%
   # clean columns
   dplyr::select("title","abstract",
                 "publication_year", "doi",        
-                "type","oa_url","author","concept",
+                "type","oa_url","author",
+                #"keyword","concept",
                 "topic","subfield","pdf_url",
                 "cited_by_count") %>% 
   # add id col

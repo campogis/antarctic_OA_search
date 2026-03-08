@@ -8,10 +8,8 @@ study
 time-series
 time series
 data collection
-Antarctic Site Inventory
 long term
 Abundance
-biomass
 densities
 density
 season
@@ -24,16 +22,21 @@ interannual
 inter-annual
 trend
 change
-variability
 Distribution
-acoustic
-stock
-fisheries
-harvest
-net sampling
-fishing vessel
-recruitment
-availability
-Acoustic survey
-plankton net sampling
-Early stages
+Sighting Surveys
+Photo identification
+photo ID
+drone survey
+Telemetry
+Passive acoustic monitoring
+Tagging
+tag
+data logger
+hydrophone
+PAM
+clicks
+whistles
+fin ID
+gps tag
+population recovery
+bycatch

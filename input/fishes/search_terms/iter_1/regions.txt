@@ -2,7 +2,7 @@ Antarctic Peninsula
 South Shetland Islands
 South Shetland
 South Orkney Island
-Bransfield strait
+Brandsfield strait
 Gerlache Strait
 Marguerite Bay
 Antarctic Sound
@@ -22,4 +22,3 @@ Seymour Island
 Elephant island
 D1MPA
 scotia arc
-south georgia

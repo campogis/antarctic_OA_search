@@ -5,7 +5,6 @@ survey
 surveyed
 inventory
 study
-census
 time-series
 time series
 data collection
@@ -24,18 +23,18 @@ inter-annual
 trend
 change
 Distribution
-population
-Sighting Surveys
-Photo identification
-photo ID
-drone survey
-aerial surveys
-Telemetry
-Passive acoustic monitoring
-autonomous camera
-tagging
-tag
-tagged
-data logger
-haul out
-pup counts
+post-fishery recovery
+population recovery
+stock recovery
+bycatch
+coastal
+demersal
+pelagic
+size structure
+assemblage
+overexploited
+stock
+fisheries
+nearshore
+inshore
+fjord

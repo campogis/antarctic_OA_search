@@ -1,14 +1,11 @@
-whale
-minke
-Humpback
-Balaenoptera bonaerensis
-Megaptera novaeangliae
-orca
-orcinus orca
-killer whale
-blue whale
-baleen 
-fin whale
-cetacean
-Balaenoptera musculus
-Balaenoptera physalus
+Antarctic fur seals
+Arctocephalus gazella
+gazelle
+southern elephant seal
+Mirounga leonina
+crabeater seal
+Lobodon carcinophaga
+leopard seal
+Hydrurga leptonyx
+Weddell seal
+Leptonychotes weddellii
